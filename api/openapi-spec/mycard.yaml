@@ -1,0 +1,64 @@
+openapi: 3.0.1
+info:
+  title: MyCard API
+  description: Get random card.
+  version: '0.1.0'
+  termsOfService: 'https://example.com/terms'
+  contact:
+    name: MyCard API
+    url: 'https://example.com/api'
+    email: dummy@example.com
+  license:
+    name: Mit License
+servers:
+  - url: 'https://example.com/api/mycard/0.1/'
+    description: Production server
+paths:
+  /random:
+    get:
+      tags:
+        - Random Card Data
+      summary: Get random card
+      description: Get random card
+      operationId: getRandomCard
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardModel'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    CardModel:
+      properties:
+        suit:
+          type: string
+          enum:
+            - spade
+            - heart
+            - daimond
+            - club
+            - joker
+          description: Suit of card parameter
+        number:
+          type: integer
+          minimum: 1
+          maximum: 13
+          description: Number of card between 1 to 13
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
